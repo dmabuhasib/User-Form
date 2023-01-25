@@ -30,12 +30,19 @@ const UserSaveData = () => {
   const navigate = useNavigate();
   const [show, setShow] = useState(false);
 
-  const { state, dispatch: ctxDispatch } = useContext(Store); /////
-  const { sectoSaveInfo } = state; /////
+  const { state, dispatch: ctxDispatch } = useContext(Store);
+  const { sectoSaveInfo, userUpdateData } = state;
+  console.log(userUpdateData.user.name);
 
-  const [name, setName] = useState(sectoSaveInfo.name);
-  const [sectors, setSectors] = useState(sectoSaveInfo.sectors);
-  const [agreeToTerms, setAgreeToTerm] = useState(sectoSaveInfo.agreeToTerms);
+  const [name, setName] = useState(
+    sectoSaveInfo.name || userUpdateData.user.name || ''
+  );
+  const [sectors, setSectors] = useState(
+    sectoSaveInfo.sectors || userUpdateData.user.sectors || ''
+  );
+  const [agreeToTerms, setAgreeToTerm] = useState(
+    sectoSaveInfo.agreeToTerms || userUpdateData.user.agreeToTerms || false
+  );
 
   const updateHandler = async (e) => {
     e.preventDefault();
@@ -47,58 +54,86 @@ const UserSaveData = () => {
         agreeToTerms,
       });
       dispatch({ type: 'UPDATE_SUCCESS' });
-      ctxDispatch({ type: 'SECTOR_SAVE_CONFIRM', payload: data });
-      localStorage.setItem('savesector', JSON.stringify(data));
+      ctxDispatch({ type: 'SAVE_UPDATE_DATA', payload: data });
+      localStorage.setItem('updatedata', JSON.stringify(data));
       toast.success('Update sector successfully');
     } catch (error) {
       dispatch({ type: 'UPDATE_FAIL' });
       toast.error(getError(error));
     }
-    navigate('/');
+    localStorage.removeItem('savesector');
+    setShow(!show);
   };
 
   return (
-    <Container>
-      <ToastContainer position="bottom-center" limit={1} />
-      <div className='form-style'>
-
-      <h4>
-        Please update your name and pick the Sectors you are currently involved
-        in.
-      </h4>
-      <Form onSubmit={updateHandler}>
-        <Form.Group className="mb-3" controlId="name">
-          <Form.Label>Name :</Form.Label>
-          <Form.Control
-            type="text"
-            required
-            value={name}
-            onChange={(e) => setName(e.target.value)}
-          />
-        </Form.Group>
-        <Form.Group className="mb-3" controlId="sectors">
-          <Form.Label>Sectors</Form.Label>
-          <Select
-            value={sectors}
-            onChange={(e) => setSectors(e.target.value)}
-          />
-        </Form.Group>
-        <Form.Group className="mb-3" controlId="checkbox">
-          <Form.Check
-            required
-            type="checkbox"
-            checked={agreeToTerms}
-            id="custom-checkbox"
-            label="Agree to terms"
-            onChange={(e) => setAgreeToTerm(e.target.checked)}
-          />
-        </Form.Group>
-        <div>
-          <Button type="submit">Update Changes</Button>
+    <>
+      <Container>
+        <div className="form-style">
+          <h4>
+            Please update your name and pick the Sectors you are currently
+            involved in.
+          </h4>
+          <Form onSubmit={updateHandler}>
+            <Form.Group className="mb-3" controlId="name">
+              <Form.Label>Name :</Form.Label>
+              <Form.Control
+                type="text"
+                required
+                value={name}
+                onChange={(e) => setName(e.target.value)}
+              />
+            </Form.Group>
+            <Form.Group className="mb-3" controlId="sectors">
+              <Form.Label>Sectors</Form.Label>
+              <Select
+                value={sectors}
+                onChange={(e) => setSectors(e.target.value)}
+              />
+            </Form.Group>
+            <Form.Group className="mb-3" controlId="checkbox">
+              <Form.Check
+                required
+                type="checkbox"
+                checked={agreeToTerms}
+                id="custom-checkbox"
+                label="Agree to terms"
+                onChange={(e) => setAgreeToTerm(e.target.checked)}
+              />
+            </Form.Group>
+            <div>
+              <Button type="submit">Update Changes</Button>
+            </div>
+            <ToastContainer position="top-center" limit={1} />
+          </Form>
         </div>
-      </Form>
-      </div>
-    </Container>
+      </Container>
+      {show ? (
+        <div className="table-style">
+          <div>
+            <h3>Your Updated data here !</h3>
+            <table className="t-style">
+              <tr>
+                <th>Name</th>
+                <th>Sectors</th>
+                <th>Agree To Terms</th>
+              </tr>
+              <tr>
+                <td>{userUpdateData.user.name}</td>
+                <td>{userUpdateData.user.sectors}</td>
+                {userUpdateData.user.agreeToTerms ? <td>Yes</td> : <td>NO</td>}
+              </tr>
+            </table>
+          </div>
+          <Link to="/">
+            <div className="btn-style">
+              <Button>Go to Back</Button>
+            </div>
+          </Link>
+        </div>
+      ) : (
+        false
+      )}
+    </>
   );
 };
 

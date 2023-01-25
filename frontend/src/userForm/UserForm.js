@@ -1,22 +1,28 @@
-import React, { useContext, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import Select from '../components/Select';
 import Container from '../components/Container';
 import { Button, Form } from 'react-bootstrap';
 import { Store } from '../Store.js';
-import { Link } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import { toast, ToastContainer } from 'react-toastify';
 import getError from '../utils';
 
 const UserForm = () => {
+  const navigate = useNavigate();
   const { state, dispatch: ctxDispatch } = useContext(Store);
-  const { sectoSaveInfo } = state;
+  const { sectoSaveInfo, userUpdateData } = state;
   const [show, setShow] = useState(false);
 
-  const [name, setName] = useState('');
-  const [sectors, setSectors] = useState('');
-  const [agreeToTerms, setAgreeToTerms] = useState(false);
-
+  const [name, setName] = useState(
+    sectoSaveInfo.name || userUpdateData.user.name || ''
+  );
+  const [sectors, setSectors] = useState(
+    sectoSaveInfo.sectors || userUpdateData.user.sectors || ''
+  );
+  const [agreeToTerms, setAgreeToTerms] = useState(
+    sectoSaveInfo.agreeToTerms || userUpdateData.user.agreeToTerms || false
+  );
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
@@ -33,11 +39,19 @@ const UserForm = () => {
     }
     setShow(!show);
   };
-  console.log(sectors);
+  useEffect(() => {
+    setName('');
+    setSectors('');
+    setAgreeToTerms(false);
+  }, [navigate]);
+  const stateControl = () => {
+    navigate('/userupdate');
+  };
+
   return (
     <>
       <Container>
-        <ToastContainer position="bottom-center" limit={1} />
+        <ToastContainer position="top-center" limit={1} />
         <div className="form-style">
           <h4>
             Please enter your name and pick the Sectors you are currently
@@ -64,10 +78,10 @@ const UserForm = () => {
               <Form.Check
                 required
                 type="checkbox"
-                value={agreeToTerms}
+                chaked={agreeToTerms}
                 id="custom-checkbox"
                 label="Agree to terms"
-                onChange={() => setAgreeToTerms(!agreeToTerms)}
+                onChange={(e) => setAgreeToTerms(e.target.checked)}
               />
             </Form.Group>
             <div>
@@ -92,11 +106,10 @@ const UserForm = () => {
               </tr>
             </table>
           </div>
-          <Link to="/userupdate">
-            <div className="btn-style">
-              <Button>Edit</Button>
-            </div>
-          </Link>
+
+          <div className="btn-style">
+            <Button onClick={stateControl}>Edit</Button>
+          </div>
         </div>
       ) : (
         false
