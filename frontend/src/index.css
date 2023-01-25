@@ -11,3 +11,48 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
 }
+
+.container {
+  max-width: 700px;
+  margin: 0 auto;
+  
+}
+.form-style{
+    margin-top: 46px;
+    border: 1px solid #ddd;
+    padding: 44px;
+    border-radius: 21px;
+    font-family: 'Nunito', sans-serif;
+    box-shadow: 0px 0px 15px 3px rgb(0 0 0 / 9%);
+}
+.table-style{
+  background: #48ff0575;
+    max-width: 800px;
+    margin: 50px auto;
+    padding: 44px;
+    border-radius: 8px
+}
+.t-style{
+  width: 100%;
+  text-align: center;
+}
+.t-style tr {
+  width: 100%;
+  border-bottom: 0.5px solid #000;
+}
+.t-style tr th{
+  padding: 12px 0px;
+  width: 33%;
+}
+.t-style tr td{
+  padding: 10px 0;
+}
+.btn-style{
+  margin-top: 20px;
+  text-align: right;
+}
+
+
+
+
+
