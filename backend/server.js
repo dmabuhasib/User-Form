@@ -6,7 +6,7 @@ import seedRouter from './routes/seedRoutes.js';
 import sectorRouter from './routes/sectorRoutes.js';
 import userRouter from './routes/userRoutes.js';
  
-dotenv.config()
+dotenv.config()  
 mongoose.connect(process.env.MONGODB_URI).then(() => {
   console.log('connected to db')
 }).catch((err) => { 

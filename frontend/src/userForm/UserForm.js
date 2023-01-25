@@ -1,9 +1,9 @@
-import React, { useContext, useEffect, useState } from 'react';
+import React, { useContext, useState } from 'react';
 import Select from '../components/Select';
 import Container from '../components/Container';
 import { Button, Form } from 'react-bootstrap';
 import { Store } from '../Store.js';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import axios from 'axios';
 import { toast, ToastContainer } from 'react-toastify';
 import getError from '../utils';
@@ -11,7 +11,6 @@ import getError from '../utils';
 const UserForm = () => {
   const { state, dispatch: ctxDispatch } = useContext(Store);
   const { sectoSaveInfo } = state;
-  console.log(sectoSaveInfo);
   const [show, setShow] = useState(false);
 
   const [name, setName] = useState('');
