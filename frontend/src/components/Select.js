@@ -17,7 +17,7 @@ const reducer = (state, action) => {
   }
 };
 
-const Select = ({ onChange, value }) => {
+const Select = ({ onChange, value, er }) => {
   const [{ loading, error, sectorData }, dispatch] = useReducer(reducer, {
     loading: true,
     error: '',

@@ -27,9 +27,8 @@ const UserSaveData = () => {
     loadingUpdate: false,
   });
 
-  const navigate = useNavigate();
   const [show, setShow] = useState(false);
-
+  const [disabled, setDisabled] = useState(false);
   const { state, dispatch: ctxDispatch } = useContext(Store);
   const { sectoSaveInfo, userUpdateData } = state;
   console.log(userUpdateData.user.name);
@@ -62,6 +61,7 @@ const UserSaveData = () => {
       toast.error(getError(error));
     }
     localStorage.removeItem('savesector');
+    setDisabled(true);
     setShow(!show);
   };
 
@@ -101,7 +101,9 @@ const UserSaveData = () => {
               />
             </Form.Group>
             <div>
-              <Button type="submit">Update Changes</Button>
+              <Button disabled={disabled} type="submit">
+                Update Changes
+              </Button>
             </div>
             <ToastContainer position="top-center" limit={1} />
           </Form>

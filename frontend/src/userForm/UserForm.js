@@ -13,13 +13,13 @@ const UserForm = () => {
   const { state, dispatch: ctxDispatch } = useContext(Store);
   const { sectoSaveInfo, userUpdateData } = state;
   const [show, setShow] = useState(false);
+  const [disabled, setDisabled] = useState(false);
 
   const [name, setName] = useState(
     sectoSaveInfo.name || userUpdateData.user.name || ''
   );
-  const [sectors, setSectors] = useState(
-    sectoSaveInfo.sectors || userUpdateData.user.sectors || ''
-  );
+  const [sectors, setSectors] = useState(sectoSaveInfo.sectors || '');
+
   const [agreeToTerms, setAgreeToTerms] = useState(
     sectoSaveInfo.agreeToTerms || userUpdateData.user.agreeToTerms || false
   );
@@ -37,6 +37,7 @@ const UserForm = () => {
     } catch (error) {
       toast.error(getError(error));
     }
+    setDisabled(true);
     setShow(!show);
   };
   useEffect(() => {
@@ -85,7 +86,9 @@ const UserForm = () => {
               />
             </Form.Group>
             <div>
-              <Button type="submit">Save</Button>
+              <Button disabled={disabled} type="submit">
+                Save
+              </Button>
             </div>
           </Form>
         </div>
