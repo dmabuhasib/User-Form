@@ -12,13 +12,16 @@ const UserForm = () => {
   const navigate = useNavigate();
   const { state, dispatch: ctxDispatch } = useContext(Store);
   const { sectoSaveInfo } = state;
+  const { sectors: saveSectors } = sectoSaveInfo;
+  console.log(saveSectors);
   const [show, setShow] = useState(false);
   const [disabled, setDisabled] = useState(false);
 
   const [name, setName] = useState('');
   const [sectors, setSectors] = useState('');
 
-  const [agreeToTerms, setAgreeToTerms] = useState(false);
+  const [agreeToTerms, setAgreeToTerms] = useState(true);
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
@@ -33,13 +36,24 @@ const UserForm = () => {
     } catch (error) {
       toast.error(getError(error));
     }
-    setDisabled(true);
-    setShow(!show);
   };
+
+  useEffect(() => {
+    if (saveSectors === undefined) {
+      setShow(false);
+      setDisabled(false);
+    } else {
+      setShow(true);
+      setDisabled(true);
+    }
+  }, [saveSectors]);
+
   useEffect(() => {
     setName('');
     setSectors('');
-    setAgreeToTerms(false);
+    setAgreeToTerms(true);
+    setShow(false);
+    setDisabled(false);
   }, [navigate]);
   const stateControl = () => {
     navigate('/userupdate');
@@ -75,7 +89,7 @@ const UserForm = () => {
               <Form.Check
                 required
                 type="checkbox"
-                chaked={agreeToTerms}
+                checked={agreeToTerms}
                 id="custom-checkbox"
                 label="Agree to terms"
                 onChange={(e) => setAgreeToTerms(e.target.checked)}

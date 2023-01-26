@@ -25,6 +25,9 @@ code {
     font-family: 'Nunito', sans-serif;
     box-shadow: 0px 0px 15px 3px rgb(0 0 0 / 9%);
 }
+.title-style{
+  font-size: 22px;
+}
 .table-style{
   background: #48ff0575;
     max-width: 800px;

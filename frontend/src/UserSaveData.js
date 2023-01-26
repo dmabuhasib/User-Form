@@ -28,17 +28,23 @@ const UserSaveData = () => {
   });
 
   const [show, setShow] = useState(false);
-  const [disabled, setDisabled] = useState(false);
   const { state, dispatch: ctxDispatch } = useContext(Store);
   const { sectoSaveInfo, userUpdateData } = state;
-  const { user } = userUpdateData;
+  const {
+    name: saveName,
+    sectors: saveSectors,
+    agreeToTerms: saveAgreeToTerm,
+  } = sectoSaveInfo;
+  const {
+    name: updatedName,
+    sectors: updatedSectors,
+    agreeToTerms: updatedAgreeToTerms,
+  } = userUpdateData.user;
 
-  const [name, setName] = useState(sectoSaveInfo.name || user.name || '');
-  const [sectors, setSectors] = useState(
-    sectoSaveInfo.sectors || user.sectors || ''
-  );
+  const [name, setName] = useState(saveName || updatedName || '');
+  const [sectors, setSectors] = useState(saveSectors || updatedSectors || '');
   const [agreeToTerms, setAgreeToTerm] = useState(
-    sectoSaveInfo.agreeToTerms || user.agreeToTerms || false
+    saveAgreeToTerm || updatedAgreeToTerms || false
   );
 
   const updateHandler = async (e) => {
@@ -59,8 +65,7 @@ const UserSaveData = () => {
       toast.error(getError(error));
     }
     localStorage.removeItem('savesector');
-    setDisabled(true);
-    setShow(!show);
+    setShow(true);
   };
 
   return (
@@ -99,9 +104,7 @@ const UserSaveData = () => {
               />
             </Form.Group>
             <div>
-              <Button disabled={disabled} type="submit">
-                Update Changes
-              </Button>
+              <Button type="submit">Update Changes</Button>
             </div>
             <ToastContainer position="top-center" limit={1} />
           </Form>
@@ -118,9 +121,9 @@ const UserSaveData = () => {
                 <th>Agree To Terms</th>
               </tr>
               <tr>
-                <td>{user.name}</td>
-                <td>{user.sectors}</td>
-                {user.agreeToTerms ? <td>Yes</td> : <td>NO</td>}
+                <td>{updatedName}</td>
+                <td>{updatedSectors}</td>
+                {updatedAgreeToTerms ? <td>Yes</td> : <td>NO</td>}
               </tr>
             </table>
           </div>
