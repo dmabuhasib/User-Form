@@ -11,18 +11,14 @@ import getError from '../utils';
 const UserForm = () => {
   const navigate = useNavigate();
   const { state, dispatch: ctxDispatch } = useContext(Store);
-  const { sectoSaveInfo, userUpdateData } = state;
+  const { sectoSaveInfo } = state;
   const [show, setShow] = useState(false);
   const [disabled, setDisabled] = useState(false);
 
-  const [name, setName] = useState(
-    sectoSaveInfo.name || userUpdateData.user.name || ''
-  );
-  const [sectors, setSectors] = useState(sectoSaveInfo.sectors || '');
+  const [name, setName] = useState('');
+  const [sectors, setSectors] = useState('');
 
-  const [agreeToTerms, setAgreeToTerms] = useState(
-    sectoSaveInfo.agreeToTerms || userUpdateData.user.agreeToTerms || false
-  );
+  const [agreeToTerms, setAgreeToTerms] = useState(false);
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
