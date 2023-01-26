@@ -1,7 +1,7 @@
 import axios from 'axios';
 import React, { useContext, useReducer, useState } from 'react';
 import { Button, Container, Form } from 'react-bootstrap';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import Select from './components/Select';
@@ -31,16 +31,14 @@ const UserSaveData = () => {
   const [disabled, setDisabled] = useState(false);
   const { state, dispatch: ctxDispatch } = useContext(Store);
   const { sectoSaveInfo, userUpdateData } = state;
-  console.log(userUpdateData.user.name);
+  const { user } = userUpdateData;
 
-  const [name, setName] = useState(
-    sectoSaveInfo.name || userUpdateData.user.name || ''
-  );
+  const [name, setName] = useState(sectoSaveInfo.name || user.name || '');
   const [sectors, setSectors] = useState(
-    sectoSaveInfo.sectors || userUpdateData.user.sectors || ''
+    sectoSaveInfo.sectors || user.sectors || ''
   );
   const [agreeToTerms, setAgreeToTerm] = useState(
-    sectoSaveInfo.agreeToTerms || userUpdateData.user.agreeToTerms || false
+    sectoSaveInfo.agreeToTerms || user.agreeToTerms || false
   );
 
   const updateHandler = async (e) => {
@@ -120,9 +118,9 @@ const UserSaveData = () => {
                 <th>Agree To Terms</th>
               </tr>
               <tr>
-                <td>{userUpdateData.user.name}</td>
-                <td>{userUpdateData.user.sectors}</td>
-                {userUpdateData.user.agreeToTerms ? <td>Yes</td> : <td>NO</td>}
+                <td>{user.name}</td>
+                <td>{user.sectors}</td>
+                {user.agreeToTerms ? <td>Yes</td> : <td>NO</td>}
               </tr>
             </table>
           </div>
