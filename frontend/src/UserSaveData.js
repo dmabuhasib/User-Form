@@ -106,7 +106,7 @@ const UserSaveData = () => {
       {show ? (
         <div className="table-style">
           <div>
-            <h3>Your Updated data here !</h3>
+            <h3 style={{textAlign:'center'}}>Your Updated data here !</h3>
             <table className="t-style">
               <tr>
                 <th>Name</th>
