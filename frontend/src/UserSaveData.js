@@ -30,21 +30,14 @@ const UserSaveData = () => {
   const [show, setShow] = useState(false);
   const { state, dispatch: ctxDispatch } = useContext(Store);
   const { sectoSaveInfo, userUpdateData } = state;
-  const {
-    name: saveName,
-    sectors: saveSectors,
-    agreeToTerms: saveAgreeToTerm,
-  } = sectoSaveInfo;
-  const {
-    name: updatedName,
-    sectors: updatedSectors,
-    agreeToTerms: updatedAgreeToTerms,
-  } = userUpdateData.user;
+  const { user } = userUpdateData;
 
-  const [name, setName] = useState(saveName || updatedName || '');
-  const [sectors, setSectors] = useState(saveSectors || updatedSectors || '');
+  const [name, setName] = useState(sectoSaveInfo.name || user.name || '');
+  const [sectors, setSectors] = useState(
+    sectoSaveInfo.sectors || user.sectors || ''
+  );
   const [agreeToTerms, setAgreeToTerm] = useState(
-    saveAgreeToTerm || updatedAgreeToTerms || false
+    sectoSaveInfo.agreeToTerms || user.agreeToTerms || false
   );
 
   const updateHandler = async (e) => {
@@ -121,9 +114,9 @@ const UserSaveData = () => {
                 <th>Agree To Terms</th>
               </tr>
               <tr>
-                <td>{updatedName}</td>
-                <td>{updatedSectors}</td>
-                {updatedAgreeToTerms ? <td>Yes</td> : <td>NO</td>}
+                <td>{user.name}</td>
+                <td>{user.sectors}</td>
+                {user.agreeToTerms ? <td>Yes</td> : <td>NO</td>}
               </tr>
             </table>
           </div>
